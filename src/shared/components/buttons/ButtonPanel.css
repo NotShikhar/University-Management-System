@@ -1,0 +1,48 @@
+@reference "tailwindcss";
+/* ── Button Panel ── */
+.button-panel {
+  @apply flex justify-start flex-row gap-2 items-center;
+  padding: 1.9rem 0 1rem 0;
+}
+
+.button-panel-end {
+  @apply flex justify-end flex-row gap-2 items-center;
+  padding: 1.9rem 0 1rem 0;
+}
+
+.button-panel > button:last-child {
+  @apply ml-0;
+}
+
+/* ── Custom submit / reset ── */
+.custom-submit {
+  background-color: var(--primary-color) !important;
+  @apply !text-white;
+  border: 1px solid var(--primary-color) !important;
+}
+
+.dark .custom-submit {
+  background-color: var(--primary-color) !important;
+  @apply !text-white;
+  border: 1px solid white !important;
+}
+
+.custom-reset {
+  @apply !bg-transparent;
+  color: var(--primary-color) !important;
+  border: 2px solid var(--primary-color) !important;
+}
+
+/* ── PrimeReact outlined override ── */
+.p-button.p-button-outlined {
+  @apply bg-transparent gap-1;
+  color: var(--primary-color) !important;
+  border: 1px solid;
+  width: 6rem;
+}
+
+.dark .p-button.p-button-outlined {
+  @apply bg-transparent;
+  @apply !text-white;
+  border: 1px solid;
+}

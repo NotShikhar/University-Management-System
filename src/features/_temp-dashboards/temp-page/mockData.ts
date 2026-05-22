@@ -1,0 +1,2422 @@
+export interface TableColumn {
+  field: string;
+  header: string;
+  type?: 'text' | 'tag' | 'badge' | 'status';
+}
+
+export interface PageConfig {
+  layout: 'table' | 'dashboard' | 'form' | 'workflow' | 'grid' | 'info';
+  columns?: TableColumn[];
+  rows?: Record<string, string>[];
+  kpis?: { label: string; value: string; icon: string }[];
+  actions?: string[];
+  sections?: {
+    title: string;
+    items: { label: string; desc: string; icon?: string }[];
+  }[];
+  infoSections?: { title: string; content: string }[];
+  workflowStages?: { stage: string; count: number; status: string }[];
+  formFields?: { label: string; type: string; required?: boolean }[];
+  gridItems?: { title: string; desc: string; count?: string }[];
+}
+
+const states = [
+  {
+    name: 'Maharashtra',
+    code: 'MH',
+    capital: 'Mumbai',
+    region: 'West',
+    status: 'Active',
+  },
+  {
+    name: 'Tamil Nadu',
+    code: 'TN',
+    capital: 'Chennai',
+    region: 'South',
+    status: 'Active',
+  },
+  {
+    name: 'Uttar Pradesh',
+    code: 'UP',
+    capital: 'Lucknow',
+    region: 'North',
+    status: 'Active',
+  },
+  {
+    name: 'Karnataka',
+    code: 'KA',
+    capital: 'Bengaluru',
+    region: 'South',
+    status: 'Active',
+  },
+  {
+    name: 'Gujarat',
+    code: 'GJ',
+    capital: 'Gandhinagar',
+    region: 'West',
+    status: 'Active',
+  },
+  {
+    name: 'Rajasthan',
+    code: 'RJ',
+    capital: 'Jaipur',
+    region: 'North',
+    status: 'Active',
+  },
+  {
+    name: 'Bihar',
+    code: 'BR',
+    capital: 'Patna',
+    region: 'East',
+    status: 'Active',
+  },
+  {
+    name: 'West Bengal',
+    code: 'WB',
+    capital: 'Kolkata',
+    region: 'East',
+    status: 'Active',
+  },
+];
+
+const divisions = [
+  {
+    name: 'Konkan',
+    state: 'Maharashtra',
+    headquarters: 'Mumbai',
+    districts: '5',
+    status: 'Active',
+  },
+  {
+    name: 'Pune',
+    state: 'Maharashtra',
+    headquarters: 'Pune',
+    districts: '5',
+    status: 'Active',
+  },
+  {
+    name: 'Nashik',
+    state: 'Maharashtra',
+    headquarters: 'Nashik',
+    districts: '5',
+    status: 'Active',
+  },
+  {
+    name: 'Aurangabad',
+    state: 'Maharashtra',
+    headquarters: 'Aurangabad',
+    districts: '8',
+    status: 'Active',
+  },
+  {
+    name: 'Nagpur',
+    state: 'Maharashtra',
+    headquarters: 'Nagpur',
+    districts: '6',
+    status: 'Active',
+  },
+  {
+    name: 'Amravati',
+    state: 'Maharashtra',
+    headquarters: 'Amravati',
+    districts: '5',
+    status: 'Active',
+  },
+];
+
+const districts = [
+  {
+    name: 'Mumbai City',
+    state: 'Maharashtra',
+    division: 'Konkan',
+    population: '12.4M',
+    status: 'Active',
+  },
+  {
+    name: 'Pune',
+    state: 'Maharashtra',
+    division: 'Pune',
+    population: '9.4M',
+    status: 'Active',
+  },
+  {
+    name: 'Nagpur',
+    state: 'Maharashtra',
+    division: 'Nagpur',
+    population: '4.6M',
+    status: 'Active',
+  },
+  {
+    name: 'Thane',
+    state: 'Maharashtra',
+    division: 'Konkan',
+    population: '11.1M',
+    status: 'Active',
+  },
+  {
+    name: 'Nashik',
+    state: 'Maharashtra',
+    division: 'Nashik',
+    population: '6.1M',
+    status: 'Active',
+  },
+  {
+    name: 'Aurangabad',
+    state: 'Maharashtra',
+    division: 'Aurangabad',
+    population: '3.7M',
+    status: 'Active',
+  },
+  {
+    name: 'Solapur',
+    state: 'Maharashtra',
+    division: 'Pune',
+    population: '4.3M',
+    status: 'Active',
+  },
+  {
+    name: 'Bangalore',
+    state: 'Karnataka',
+    division: 'Bangalore',
+    population: '12.3M',
+    status: 'Active',
+  },
+];
+
+const tehsils = [
+  {
+    name: 'Mumbai City Tehsil',
+    district: 'Mumbai City',
+    type: 'Urban',
+    blocks: '3',
+    status: 'Active',
+  },
+  {
+    name: 'Haveli Tehsil',
+    district: 'Pune',
+    type: 'Urban',
+    blocks: '5',
+    status: 'Active',
+  },
+  {
+    name: 'Nagpur Urban',
+    district: 'Nagpur',
+    type: 'Urban',
+    blocks: '4',
+    status: 'Active',
+  },
+  {
+    name: 'Thane Tehsil',
+    district: 'Thane',
+    type: 'Urban',
+    blocks: '2',
+    status: 'Active',
+  },
+  {
+    name: 'Nashik Tehsil',
+    district: 'Nashik',
+    type: 'Semi-Urban',
+    blocks: '4',
+    status: 'Active',
+  },
+  {
+    name: 'Aurangabad Tehsil',
+    district: 'Aurangabad',
+    type: 'Urban',
+    blocks: '3',
+    status: 'Active',
+  },
+  {
+    name: 'Baramati Tehsil',
+    district: 'Pune',
+    type: 'Rural',
+    blocks: '6',
+    status: 'Active',
+  },
+  {
+    name: 'Phaltan Tehsil',
+    district: 'Solapur',
+    type: 'Rural',
+    blocks: '4',
+    status: 'Active',
+  },
+];
+
+const blocks = [
+  {
+    name: 'Andheri Block',
+    tehsil: 'Mumbai City Tehsil',
+    type: 'Urban',
+    villages: '0',
+    status: 'Active',
+  },
+  {
+    name: 'Shivajinagar Block',
+    tehsil: 'Haveli Tehsil',
+    type: 'Urban',
+    villages: '2',
+    status: 'Active',
+  },
+  {
+    name: 'Warje Block',
+    tehsil: 'Haveli Tehsil',
+    type: 'Semi-Urban',
+    villages: '8',
+    status: 'Active',
+  },
+  {
+    name: 'Kharadi Block',
+    tehsil: 'Haveli Tehsil',
+    type: 'Urban',
+    villages: '3',
+    status: 'Active',
+  },
+  {
+    name: 'Malshiras Block',
+    tehsil: 'Phaltan Tehsil',
+    type: 'Rural',
+    villages: '42',
+    status: 'Active',
+  },
+  {
+    name: 'Daund Block',
+    tehsil: 'Baramati Tehsil',
+    type: 'Rural',
+    villages: '36',
+    status: 'Active',
+  },
+  {
+    name: 'Igatpuri Block',
+    tehsil: 'Nashik Tehsil',
+    type: 'Rural',
+    villages: '28',
+    status: 'Active',
+  },
+  {
+    name: 'Panvel Block',
+    tehsil: 'Thane Tehsil',
+    type: 'Semi-Urban',
+    villages: '15',
+    status: 'Active',
+  },
+];
+
+const subjects = [
+  {
+    name: 'Data Structures',
+    code: 'CS201',
+    category: 'Core',
+    credits: '4',
+    department: 'Computer Science',
+  },
+  {
+    name: 'Linear Algebra',
+    code: 'MT101',
+    category: 'Core',
+    credits: '4',
+    department: 'Mathematics',
+  },
+  {
+    name: 'Quantum Mechanics',
+    code: 'PH301',
+    category: 'Elective',
+    credits: '3',
+    department: 'Physics',
+  },
+  {
+    name: 'Organic Chemistry',
+    code: 'CH201',
+    category: 'Core',
+    credits: '4',
+    department: 'Chemistry',
+  },
+  {
+    name: 'English Literature',
+    code: 'EN101',
+    category: 'Foundation',
+    credits: '2',
+    department: 'English',
+  },
+  {
+    name: 'Machine Learning',
+    code: 'CS401',
+    category: 'Elective',
+    credits: '3',
+    department: 'Computer Science',
+  },
+  {
+    name: 'Thermodynamics',
+    code: 'ME301',
+    category: 'Core',
+    credits: '4',
+    department: 'Mechanical',
+  },
+  {
+    name: 'Microbiology',
+    code: 'BI201',
+    category: 'Core',
+    credits: '4',
+    department: 'Biology',
+  },
+];
+
+const programmes = [
+  {
+    name: 'B.Tech Computer Science',
+    code: 'BTCS',
+    level: 'UG',
+    duration: '4 Years',
+    seats: '120',
+    status: 'Active',
+  },
+  {
+    name: 'B.Sc Mathematics',
+    code: 'BSM',
+    level: 'UG',
+    duration: '3 Years',
+    seats: '80',
+    status: 'Active',
+  },
+  {
+    name: 'M.Tech AI & ML',
+    code: 'MTAI',
+    level: 'PG',
+    duration: '2 Years',
+    seats: '60',
+    status: 'Active',
+  },
+  {
+    name: 'Ph.D Computer Science',
+    code: 'PHDCS',
+    level: 'Doctoral',
+    duration: '5 Years',
+    seats: '15',
+    status: 'Active',
+  },
+  {
+    name: 'MBA Finance',
+    code: 'MBAF',
+    level: 'PG',
+    duration: '2 Years',
+    seats: '90',
+    status: 'Active',
+  },
+  {
+    name: 'B.Com Accounting',
+    code: 'BCOM',
+    level: 'UG',
+    duration: '3 Years',
+    seats: '150',
+    status: 'Active',
+  },
+];
+
+const schemes = [
+  {
+    name: 'Merit Scholarship',
+    type: 'Academic',
+    category: 'UG',
+    benefit: '100% Tuition',
+    students: '250',
+    status: 'Active',
+  },
+  {
+    name: 'SC/ST Fellowship',
+    type: 'Social',
+    category: 'All Levels',
+    benefit: 'Full Stipend',
+    students: '180',
+    status: 'Active',
+  },
+  {
+    name: 'Sports Excellence',
+    type: 'Sports',
+    category: 'UG/PG',
+    benefit: '₹50,000/yr',
+    students: '45',
+    status: 'Active',
+  },
+  {
+    name: 'Research Assistantship',
+    type: 'Research',
+    category: 'PG/PhD',
+    benefit: '₹30,000/mo',
+    students: '120',
+    status: 'Active',
+  },
+  {
+    name: 'Need-Based Aid',
+    type: 'Financial',
+    category: 'All Levels',
+    benefit: 'Variable',
+    students: '300',
+    status: 'Active',
+  },
+  {
+    name: 'Merit cum Means',
+    type: 'Financial',
+    category: 'UG',
+    benefit: '50% Tuition',
+    students: '200',
+    status: 'Active',
+  },
+];
+
+const users = [
+  {
+    name: 'Dr. Arun Kumar',
+    role: 'Faculty',
+    email: 'arun.kumar@university.edu',
+    department: 'Computer Science',
+    status: 'Active',
+    lastLogin: '2h ago',
+  },
+  {
+    name: 'Prof. Sunita Rao',
+    role: 'Faculty',
+    email: 'sunita.rao@university.edu',
+    department: 'Mathematics',
+    status: 'Active',
+    lastLogin: '1h ago',
+  },
+  {
+    name: 'Mr. Rohan Desai',
+    role: 'Staff',
+    email: 'rohan.desai@university.edu',
+    department: 'Administration',
+    status: 'Active',
+    lastLogin: '30m ago',
+  },
+  {
+    name: 'Dr. Neha Gupta',
+    role: 'HOD',
+    email: 'neha.gupta@university.edu',
+    department: 'Physics',
+    status: 'Active',
+    lastLogin: '5m ago',
+  },
+  {
+    name: 'Mr. Vikram Singh',
+    role: 'Staff',
+    email: 'vikram.singh@university.edu',
+    department: 'Finance',
+    status: 'Inactive',
+    lastLogin: '3d ago',
+  },
+  {
+    name: 'Prof. Ananya Reddy',
+    role: 'Dean',
+    email: 'ananya.reddy@university.edu',
+    department: 'Engineering',
+    status: 'Active',
+    lastLogin: '1d ago',
+  },
+  {
+    name: 'Mrs. Pooja Patel',
+    role: 'Faculty',
+    email: 'pooja.patel@university.edu',
+    department: 'Chemistry',
+    status: 'Active',
+    lastLogin: '4h ago',
+  },
+  {
+    name: 'Dr. Karthik Nair',
+    role: 'Faculty',
+    email: 'karthik.nair@university.edu',
+    department: 'Biology',
+    status: 'On Leave',
+    lastLogin: '1w ago',
+  },
+];
+
+const feedbackResponses = [
+  {
+    course: 'Data Structures',
+    faculty: 'Dr. Sharma',
+    responses: '98',
+    avgRating: '4.5',
+    status: 'Published',
+  },
+  {
+    course: 'Linear Algebra',
+    faculty: 'Prof. Patel',
+    responses: '72',
+    avgRating: '4.2',
+    status: 'Published',
+  },
+  {
+    course: 'Quantum Mechanics',
+    faculty: 'Dr. Verma',
+    responses: '45',
+    avgRating: '4.7',
+    status: 'Draft',
+  },
+  {
+    course: 'English Lit',
+    faculty: 'Ms. Singh',
+    responses: '85',
+    avgRating: '4.0',
+    status: 'Published',
+  },
+  {
+    course: 'Machine Learning',
+    faculty: 'Dr. Kumar',
+    responses: '110',
+    avgRating: '4.8',
+    status: 'Published',
+  },
+  {
+    course: 'Thermodynamics',
+    faculty: 'Dr. Patil',
+    responses: '62',
+    avgRating: '3.9',
+    status: 'Pending',
+  },
+];
+
+const certificates = [
+  {
+    id: 'CERT001',
+    student: 'Rahul Sharma',
+    course: 'B.Tech CS',
+    issueDate: '15 Jun 2026',
+    type: 'Degree',
+    status: 'Issued',
+  },
+  {
+    id: 'CERT002',
+    student: 'Priya Patel',
+    course: 'MBA Finance',
+    issueDate: '15 Jun 2026',
+    type: 'Degree',
+    status: 'Issued',
+  },
+  {
+    id: 'CERT003',
+    student: 'Amit Singh',
+    course: 'M.Sc Physics',
+    issueDate: 'Pending',
+    type: 'Transcript',
+    status: 'Processing',
+  },
+  {
+    id: 'CERT004',
+    student: 'Neha Gupta',
+    course: 'B.Com',
+    issueDate: '12 Jul 2026',
+    type: 'Provisional',
+    status: 'Pending',
+  },
+  {
+    id: 'CERT005',
+    student: 'Rohan Verma',
+    course: 'Ph.D CS',
+    issueDate: '30 Aug 2026',
+    type: 'Degree',
+    status: 'Processing',
+  },
+  {
+    id: 'CERT006',
+    student: 'Sneha Reddy',
+    course: 'B.Sc Maths',
+    issueDate: '15 Jun 2026',
+    type: 'Migration',
+    status: 'Issued',
+  },
+];
+
+const hostelRooms = [
+  {
+    room: 'A-101',
+    block: 'A Wing',
+    student: 'Rahul Sharma',
+    occupancy: 'Single',
+    status: 'Occupied',
+    rent: '₹8,000',
+  },
+  {
+    room: 'A-102',
+    block: 'A Wing',
+    student: 'Amit Patel',
+    occupancy: 'Single',
+    status: 'Occupied',
+    rent: '₹8,000',
+  },
+  {
+    room: 'B-201',
+    block: 'B Wing',
+    student: '—',
+    occupancy: 'Double',
+    status: 'Vacant',
+    rent: '₹5,000',
+  },
+  {
+    room: 'C-301',
+    block: 'C Wing',
+    student: 'Suresh Kumar',
+    occupancy: 'Triple',
+    status: 'Occupied',
+    rent: '₹3,500',
+  },
+  {
+    room: 'A-103',
+    block: 'A Wing',
+    student: '—',
+    occupancy: 'Single',
+    status: 'Under Maintenance',
+    rent: '—',
+  },
+  {
+    room: 'B-202',
+    block: 'B Wing',
+    student: 'Vikram Joshi',
+    occupancy: 'Double',
+    status: 'Occupied',
+    rent: '₹5,000',
+  },
+];
+
+const grievances = [
+  {
+    id: 'GRV001',
+    student: 'Rahul Sharma',
+    category: 'Academic',
+    description: 'Grade not updated',
+    status: 'Open',
+    raised: '20 May 2026',
+  },
+  {
+    id: 'GRV002',
+    student: 'Priya Patel',
+    category: 'Facility',
+    description: 'Hostel Wi-Fi issue',
+    status: 'In Progress',
+    raised: '18 May 2026',
+  },
+  {
+    id: 'GRV003',
+    student: 'Amit Singh',
+    category: 'Administrative',
+    description: 'Fee receipt not generated',
+    status: 'Resolved',
+    raised: '15 May 2026',
+  },
+  {
+    id: 'GRV004',
+    student: 'Neha Gupta',
+    category: 'Academic',
+    description: 'Exam form correction',
+    status: 'Open',
+    raised: '22 May 2026',
+  },
+  {
+    id: 'GRV005',
+    student: 'Rohan Verma',
+    category: 'Other',
+    description: 'Library card not issued',
+    status: 'In Progress',
+    raised: '19 May 2026',
+  },
+  {
+    id: 'GRV006',
+    student: 'Sneha Reddy',
+    category: 'Facility',
+    description: 'Canteen quality issue',
+    status: 'Resolved',
+    raised: '10 May 2026',
+  },
+];
+
+const affiliations = [
+  {
+    college: "St. Xavier's College",
+    type: 'Aided',
+    affiliationDate: '01 Jun 2020',
+    validity: '5 Years',
+    status: 'Active',
+    renewalDue: '31 May 2025',
+  },
+  {
+    college: 'Modern College Pune',
+    type: 'Unaided',
+    affiliationDate: '15 Jul 2019',
+    validity: '5 Years',
+    status: 'Active',
+    renewalDue: '14 Jul 2024',
+  },
+  {
+    college: 'Govt Science Nagpur',
+    type: 'Government',
+    affiliationDate: '01 Jan 2018',
+    validity: 'Permanent',
+    status: 'Active',
+    renewalDue: '—',
+  },
+  {
+    college: 'Ruia College Mumbai',
+    type: 'Aided',
+    affiliationDate: '01 Jun 2021',
+    validity: '3 Years',
+    status: 'Active',
+    renewalDue: '31 May 2024',
+  },
+  {
+    college: 'New Horizon College',
+    type: 'Unaided',
+    affiliationDate: '10 Mar 2023',
+    validity: '5 Years',
+    status: 'Provisional',
+    renewalDue: '09 Mar 2028',
+  },
+];
+
+const examinations = [
+  {
+    exam: 'Semester I Exams',
+    programme: 'B.Tech CS',
+    date: '10 Dec 2026',
+    students: '120',
+    status: 'Scheduled',
+  },
+  {
+    exam: 'Mid Term Exams',
+    programme: 'MBA Finance',
+    date: '15 Sep 2026',
+    students: '90',
+    status: 'Scheduled',
+  },
+  {
+    exam: 'Practical Exams',
+    programme: 'B.Sc Physics',
+    date: '05 Dec 2026',
+    students: '60',
+    status: 'Scheduled',
+  },
+  {
+    exam: 'Final Year Exams',
+    programme: 'All UG',
+    date: '20 Apr 2027',
+    students: '1500',
+    status: 'Draft',
+  },
+  {
+    exam: 'Supplementary Exams',
+    programme: 'All',
+    date: '15 Feb 2027',
+    students: '200',
+    status: 'Tentative',
+  },
+  {
+    exam: 'Entrance Exam',
+    programme: 'M.Tech',
+    date: '12 Jul 2026',
+    students: '450',
+    status: 'Results Pending',
+  },
+];
+
+const communications = [
+  {
+    subject: 'Holiday Notice - Diwali',
+    sender: 'Registrar Office',
+    date: '20 Oct 2026',
+    type: 'Circular',
+    status: 'Published',
+  },
+  {
+    subject: 'Exam Schedule Release',
+    sender: 'Exam Cell',
+    date: '15 Nov 2026',
+    type: 'Notice',
+    status: 'Published',
+  },
+  {
+    subject: 'Faculty Development Program',
+    sender: 'HR Dept',
+    date: '05 Jun 2026',
+    type: 'Circular',
+    status: 'Draft',
+  },
+  {
+    subject: 'Research Grant Opportunity',
+    sender: 'R&D Cell',
+    date: '01 Jun 2026',
+    type: 'Notification',
+    status: 'Published',
+  },
+  {
+    subject: 'Hostel Fee Reminder',
+    sender: 'Accounts',
+    date: '25 May 2026',
+    type: 'Notice',
+    status: 'Published',
+  },
+  {
+    subject: 'Placement Drive Notice',
+    sender: 'Training & Placement',
+    date: '10 Jul 2026',
+    type: 'Notification',
+    status: 'Draft',
+  },
+];
+
+const financeRecords = [
+  {
+    fy: '2026-27',
+    budget: '₹85 Cr',
+    allocated: '₹62 Cr',
+    spent: '₹38 Cr',
+    balance: '₹24 Cr',
+    status: 'Active',
+  },
+  {
+    fy: '2025-26',
+    budget: '₹78 Cr',
+    allocated: '₹78 Cr',
+    spent: '₹71 Cr',
+    balance: '₹7 Cr',
+    status: 'Completed',
+  },
+  {
+    fy: '2024-25',
+    budget: '₹72 Cr',
+    allocated: '₹72 Cr',
+    spent: '₹68 Cr',
+    balance: '₹4 Cr',
+    status: 'Completed',
+  },
+  {
+    fy: '2027-28',
+    budget: '—',
+    allocated: '—',
+    spent: '—',
+    balance: '—',
+    status: 'Upcoming',
+  },
+];
+
+export const pageConfigs: Record<string, PageConfig> = {
+  state: {
+    layout: 'table',
+    columns: [
+      { field: 'name', header: 'State Name' },
+      { field: 'code', header: 'Code' },
+      { field: 'capital', header: 'Capital' },
+      { field: 'region', header: 'Region' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: states,
+    actions: ['Add State', 'Import States', 'Export List'],
+  },
+  division: {
+    layout: 'table',
+    columns: [
+      { field: 'name', header: 'Division Name' },
+      { field: 'state', header: 'State' },
+      { field: 'headquarters', header: 'Headquarters' },
+      { field: 'districts', header: 'Districts' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: divisions,
+    actions: ['Add Division', 'Merge Divisions', 'Export'],
+  },
+  district: {
+    layout: 'table',
+    columns: [
+      { field: 'name', header: 'District Name' },
+      { field: 'state', header: 'State' },
+      { field: 'division', header: 'Division' },
+      { field: 'population', header: 'Population' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: districts,
+    actions: ['Add District', 'Bulk Upload', 'Generate Report'],
+  },
+  tehsil: {
+    layout: 'table',
+    columns: [
+      { field: 'name', header: 'Tehsil Name' },
+      { field: 'district', header: 'District' },
+      { field: 'type', header: 'Type', type: 'badge' },
+      { field: 'blocks', header: 'Blocks' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: tehsils,
+    actions: ['Add Tehsil', 'Assign Blocks', 'Export'],
+  },
+  block: {
+    layout: 'table',
+    columns: [
+      { field: 'name', header: 'Block Name' },
+      { field: 'tehsil', header: 'Tehsil' },
+      { field: 'type', header: 'Type', type: 'badge' },
+      { field: 'villages', header: 'Villages' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: blocks,
+    actions: ['Add Block', 'Map Villages', 'Generate Report'],
+  },
+  subject: {
+    layout: 'table',
+    columns: [
+      { field: 'name', header: 'Subject Name' },
+      { field: 'code', header: 'Code' },
+      { field: 'category', header: 'Category', type: 'badge' },
+      { field: 'credits', header: 'Credits' },
+      { field: 'department', header: 'Department' },
+    ],
+    rows: subjects,
+    actions: ['Add Subject', 'Assign Faculty', 'Import'],
+  },
+  'subject-category': {
+    layout: 'grid',
+    gridItems: [
+      {
+        title: 'Core Subjects',
+        desc: 'Mandatory courses required for degree completion',
+        count: '48',
+      },
+      {
+        title: 'Elective Subjects',
+        desc: 'Optional courses for specialization',
+        count: '72',
+      },
+      {
+        title: 'Foundation Courses',
+        desc: 'Basic fundamental subjects',
+        count: '18',
+      },
+      {
+        title: 'Skill-Based Courses',
+        desc: 'Practical skill development subjects',
+        count: '24',
+      },
+      {
+        title: 'Interdisciplinary',
+        desc: 'Cross-departmental courses',
+        count: '15',
+      },
+      {
+        title: 'Vocational Courses',
+        desc: 'Industry-oriented training subjects',
+        count: '12',
+      },
+    ],
+    actions: ['Add Category', 'Assign Subjects', 'Reorder'],
+  },
+  'mode-of-education': {
+    layout: 'grid',
+    gridItems: [
+      {
+        title: 'Full-Time (Regular)',
+        desc: 'Traditional classroom-based education',
+        count: '32 Programmes',
+      },
+      {
+        title: 'Part-Time',
+        desc: 'Evening/weekend classes for working professionals',
+        count: '8 Programmes',
+      },
+      {
+        title: 'Distance Education',
+        desc: 'Self-paced learning through correspondence',
+        count: '15 Programmes',
+      },
+      {
+        title: 'Online Mode',
+        desc: 'Fully digital learning via LMS platform',
+        count: '12 Programmes',
+      },
+      {
+        title: 'Blended Learning',
+        desc: 'Hybrid mix of online and offline instruction',
+        count: '20 Programmes',
+      },
+      {
+        title: 'Sandwich Programme',
+        desc: 'Academics interspersed with industrial training',
+        count: '5 Programmes',
+      },
+    ],
+    actions: ['Configure Mode', 'Assign Programmes', 'Settings'],
+  },
+  'programme-specialization-structure': {
+    layout: 'table',
+    columns: [
+      { field: 'name', header: 'Specialization' },
+      { field: 'code', header: 'Code' },
+      { field: 'programme', header: 'Programme' },
+      { field: 'credits', header: 'Credits' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: [
+      {
+        name: 'AI & Machine Learning',
+        code: 'AIML',
+        programme: 'B.Tech CS',
+        credits: '20',
+        status: 'Active',
+      },
+      {
+        name: 'Data Science',
+        code: 'DS',
+        programme: 'B.Tech CS',
+        credits: '18',
+        status: 'Active',
+      },
+      {
+        name: 'Cybersecurity',
+        code: 'CSEC',
+        programme: 'B.Tech CS',
+        credits: '16',
+        status: 'Active',
+      },
+      {
+        name: 'Finance',
+        code: 'FIN',
+        programme: 'MBA',
+        credits: '12',
+        status: 'Active',
+      },
+      {
+        name: 'Marketing',
+        code: 'MKT',
+        programme: 'MBA',
+        credits: '12',
+        status: 'Active',
+      },
+      {
+        name: 'Pure Mathematics',
+        code: 'PM',
+        programme: 'M.Sc Maths',
+        credits: '16',
+        status: 'Active',
+      },
+    ],
+    actions: ['Add Specialization', 'Map Programme', 'Configure Credits'],
+  },
+  'office-type': {
+    layout: 'grid',
+    gridItems: [
+      {
+        title: 'Administrative Office',
+        desc: 'General administration and governance',
+        count: '5 Offices',
+      },
+      {
+        title: 'Academic Office',
+        desc: 'Curriculum and faculty management',
+        count: '3 Offices',
+      },
+      {
+        title: 'Examination Office',
+        desc: 'Exam scheduling and result processing',
+        count: '2 Offices',
+      },
+      {
+        title: 'Student Affairs Office',
+        desc: 'Student services and welfare',
+        count: '4 Offices',
+      },
+      {
+        title: 'Finance Office',
+        desc: 'Budget, accounting and procurement',
+        count: '2 Offices',
+      },
+      {
+        title: 'Research Office',
+        desc: 'Research grants and publications',
+        count: '2 Offices',
+      },
+    ],
+    actions: ['Add Office Type', 'Assign Duties', 'Configure'],
+  },
+  department: {
+    layout: 'table',
+    columns: [
+      { field: 'name', header: 'Department' },
+      { field: 'code', header: 'Code' },
+      { field: 'faculty', header: 'Faculty' },
+      { field: 'hod', header: 'Head of Dept' },
+      { field: 'staff', header: 'Staff' },
+    ],
+    rows: [
+      {
+        name: 'Computer Science',
+        code: 'CS',
+        faculty: 'Engineering',
+        hod: 'Dr. Arun Kumar',
+        staff: '25',
+      },
+      {
+        name: 'Mathematics',
+        code: 'MT',
+        faculty: 'Science',
+        hod: 'Prof. Sunita Rao',
+        staff: '18',
+      },
+      {
+        name: 'Physics',
+        code: 'PH',
+        faculty: 'Science',
+        hod: 'Dr. Neha Gupta',
+        staff: '15',
+      },
+      {
+        name: 'Chemistry',
+        code: 'CH',
+        faculty: 'Science',
+        hod: 'Dr. Suresh Patel',
+        staff: '14',
+      },
+      {
+        name: 'Business Administration',
+        code: 'BA',
+        faculty: 'Commerce',
+        hod: 'Dr. Rohan Mehta',
+        staff: '20',
+      },
+      {
+        name: 'English',
+        code: 'EN',
+        faculty: 'Arts',
+        hod: 'Prof. Meena Iyer',
+        staff: '12',
+      },
+    ],
+    actions: ['Add Department', 'Assign HOD', 'View Reports'],
+  },
+  designation: {
+    layout: 'grid',
+    gridItems: [
+      {
+        title: 'Professor',
+        desc: 'Senior-most academic position',
+        count: '42 Active',
+      },
+      {
+        title: 'Associate Professor',
+        desc: 'Mid-level academic position',
+        count: '68 Active',
+      },
+      {
+        title: 'Assistant Professor',
+        desc: 'Entry-level academic position',
+        count: '95 Active',
+      },
+      {
+        title: 'Lecturer',
+        desc: 'Teaching-focused position',
+        count: '55 Active',
+      },
+      {
+        title: 'Lab Assistant',
+        desc: 'Laboratory support staff',
+        count: '30 Active',
+      },
+      {
+        title: 'Administrative Officer',
+        desc: 'Non-teaching administrative role',
+        count: '48 Active',
+      },
+    ],
+    actions: ['Add Designation', 'Set Pay Scale', 'Configure'],
+  },
+  faculty: {
+    layout: 'table',
+    columns: [
+      { field: 'name', header: 'Faculty Name' },
+      { field: 'dean', header: 'Dean' },
+      { field: 'departments', header: 'Departments' },
+      { field: 'students', header: 'Students' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: [
+      {
+        name: 'Faculty of Engineering',
+        dean: 'Dr. Ananya Reddy',
+        departments: '6',
+        students: '3200',
+        status: 'Active',
+      },
+      {
+        name: 'Faculty of Science',
+        dean: 'Dr. Karthik Nair',
+        departments: '5',
+        students: '2400',
+        status: 'Active',
+      },
+      {
+        name: 'Faculty of Commerce',
+        dean: 'Dr. Rohan Mehta',
+        departments: '3',
+        students: '1800',
+        status: 'Active',
+      },
+      {
+        name: 'Faculty of Arts',
+        dean: 'Prof. Meena Iyer',
+        departments: '4',
+        students: '1200',
+        status: 'Active',
+      },
+      {
+        name: 'Faculty of Law',
+        dean: 'Dr. Prakash Joshi',
+        departments: '2',
+        students: '600',
+        status: 'Active',
+      },
+      {
+        name: 'Faculty of Management',
+        dean: 'Dr. Amit Verma',
+        departments: '3',
+        students: '900',
+        status: 'Active',
+      },
+    ],
+    actions: ['Add Faculty', 'Assign Dean', 'View Structure'],
+  },
+  caste: {
+    layout: 'grid',
+    gridItems: [
+      {
+        title: 'General (UR)',
+        desc: 'Unreserved category',
+        count: '45% Seats',
+      },
+      {
+        title: 'Scheduled Caste (SC)',
+        desc: 'Constitutional reservation category',
+        count: '15% Seats',
+      },
+      {
+        title: 'Scheduled Tribe (ST)',
+        desc: 'Indigenous tribal communities',
+        count: '7.5% Seats',
+      },
+      {
+        title: 'Other Backward Class (OBC)',
+        desc: 'Socially and educationally backward',
+        count: '27% Seats',
+      },
+      {
+        title: 'Economically Weaker Section (EWS)',
+        desc: 'Economically disadvantaged general category',
+        count: '10% Seats',
+      },
+      {
+        title: 'Special Category',
+        desc: 'PwD, ex-servicemen, sports quota',
+        count: '5% Seats',
+      },
+    ],
+    actions: ['Add Category', 'Set Reservation %', 'Configure Benefits'],
+  },
+  post: {
+    layout: 'table',
+    columns: [
+      { field: 'title', header: 'Post Title' },
+      { field: 'department', header: 'Department' },
+      { field: 'type', header: 'Type', type: 'badge' },
+      { field: 'vacancies', header: 'Vacancies' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: [
+      {
+        title: 'Professor - CS',
+        department: 'Computer Science',
+        type: 'Teaching',
+        vacancies: '3',
+        status: 'Open',
+      },
+      {
+        title: 'Lab Technician',
+        department: 'Physics',
+        type: 'Non-Teaching',
+        vacancies: '2',
+        status: 'Open',
+      },
+      {
+        title: 'Accountant',
+        department: 'Finance',
+        type: 'Non-Teaching',
+        vacancies: '1',
+        status: 'Filled',
+      },
+      {
+        title: 'Assistant Librarian',
+        department: 'Library',
+        type: 'Non-Teaching',
+        vacancies: '1',
+        status: 'Open',
+      },
+      {
+        title: 'Associate Prof - Maths',
+        department: 'Mathematics',
+        type: 'Teaching',
+        vacancies: '2',
+        status: 'Open',
+      },
+      {
+        title: 'Sports Coach',
+        department: 'Physical Education',
+        type: 'Teaching',
+        vacancies: '1',
+        status: 'Filled',
+      },
+    ],
+    actions: ['Create Post', 'Fill Vacancy', 'View Applications'],
+  },
+  religion: {
+    layout: 'grid',
+    gridItems: [
+      { title: 'Hinduism', desc: 'Majority religious community', count: '78%' },
+      { title: 'Islam', desc: 'Muslim community', count: '12%' },
+      { title: 'Christianity', desc: 'Christian community', count: '5%' },
+      { title: 'Sikhism', desc: 'Sikh community', count: '2%' },
+      { title: 'Buddhism', desc: 'Buddhist community', count: '1.5%' },
+      { title: 'Jainism', desc: 'Jain community', count: '1%' },
+      {
+        title: 'Other Religions',
+        desc: 'Parsi, Jewish, and other communities',
+        count: '0.5%',
+      },
+    ],
+    actions: ['Add Religion', 'Configure Census Data'],
+  },
+  qualification: {
+    layout: 'grid',
+    gridItems: [
+      { title: 'Ph.D', desc: 'Doctorate degree', count: '186 Faculty' },
+      { title: 'M.Phil', desc: 'Master of Philosophy', count: '45 Faculty' },
+      { title: 'Post Graduate', desc: "Master's degree", count: '320 Faculty' },
+      { title: 'Graduate', desc: "Bachelor's degree", count: '180 Staff' },
+      {
+        title: 'Diploma',
+        desc: 'Technical/vocational diploma',
+        count: '65 Staff',
+      },
+      {
+        title: 'Certificate',
+        desc: 'Professional certifications',
+        count: '90 Staff',
+      },
+    ],
+    actions: ['Add Qualification', 'Map to Posts', 'Verify Documents'],
+  },
+  class: {
+    layout: 'grid',
+    gridItems: [
+      {
+        title: 'Class 1',
+        desc: 'First year of UG programmes',
+        count: '42 Sections',
+      },
+      {
+        title: 'Class 2',
+        desc: 'Second year of UG programmes',
+        count: '40 Sections',
+      },
+      {
+        title: 'Class 3',
+        desc: 'Third year of UG programmes',
+        count: '38 Sections',
+      },
+      {
+        title: 'Class 4',
+        desc: 'Final year of UG programmes',
+        count: '36 Sections',
+      },
+      {
+        title: 'PG Class',
+        desc: 'Postgraduate programme years',
+        count: '24 Sections',
+      },
+      {
+        title: 'Doctoral',
+        desc: 'Ph.D research scholars',
+        count: '15 Cohorts',
+      },
+    ],
+    actions: ['Add Class', 'Assign Sections', 'Set Curriculum'],
+  },
+  section: {
+    layout: 'table',
+    columns: [
+      { field: 'name', header: 'Section' },
+      { field: 'class', header: 'Class' },
+      { field: 'strength', header: 'Strength' },
+      { field: 'teacher', header: 'Class Teacher' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: [
+      {
+        name: 'A',
+        class: 'Class 1',
+        strength: '65',
+        teacher: 'Dr. Sharma',
+        status: 'Active',
+      },
+      {
+        name: 'B',
+        class: 'Class 1',
+        strength: '62',
+        teacher: 'Prof. Patel',
+        status: 'Active',
+      },
+      {
+        name: 'C',
+        class: 'Class 1',
+        strength: '58',
+        teacher: 'Ms. Singh',
+        status: 'Active',
+      },
+      {
+        name: 'A',
+        class: 'Class 2',
+        strength: '60',
+        teacher: 'Dr. Verma',
+        status: 'Active',
+      },
+      {
+        name: 'B',
+        class: 'Class 2',
+        strength: '55',
+        teacher: 'Dr. Kumar',
+        status: 'Active',
+      },
+      {
+        name: 'A',
+        class: 'Class 3',
+        strength: '50',
+        teacher: 'Prof. Rao',
+        status: 'Active',
+      },
+    ],
+    actions: ['Add Section', 'Assign Teacher', 'Merge Sections'],
+  },
+  'designation-type': {
+    layout: 'grid',
+    gridItems: [
+      {
+        title: 'Teaching',
+        desc: 'Academic faculty positions',
+        count: '260 Active',
+      },
+      {
+        title: 'Non-Teaching',
+        desc: 'Administrative and support staff',
+        count: '120 Active',
+      },
+      {
+        title: 'Technical',
+        desc: 'Lab technicians, IT support',
+        count: '45 Active',
+      },
+      {
+        title: 'Research',
+        desc: 'Research associates and fellows',
+        count: '35 Active',
+      },
+      {
+        title: 'Contractual',
+        desc: 'Fixed-term contract positions',
+        count: '28 Active',
+      },
+      {
+        title: 'Honorary',
+        desc: 'Visiting faculty and guest lecturers',
+        count: '18 Active',
+      },
+    ],
+    actions: ['Add Type', 'Set Benefits', 'Configure Pay Scale'],
+  },
+  'college-type': {
+    layout: 'grid',
+    gridItems: [
+      {
+        title: 'Government College',
+        desc: 'Fully funded and managed by state/central government',
+        count: '28 Colleges',
+      },
+      {
+        title: 'Aided College',
+        desc: 'Private management with government grant-in-aid',
+        count: '45 Colleges',
+      },
+      {
+        title: 'Unaided College',
+        desc: 'Self-financed private institutions',
+        count: '62 Colleges',
+      },
+      {
+        title: 'Autonomous College',
+        desc: 'Independent curriculum and examination authority',
+        count: '15 Colleges',
+      },
+      {
+        title: 'Deemed University',
+        desc: 'Deemed-to-be-university status by UGC',
+        count: '8 Colleges',
+      },
+      {
+        title: 'Constituent College',
+        desc: 'Part of a parent university',
+        count: '12 Colleges',
+      },
+    ],
+    actions: ['Add College Type', 'Assign Affiliation', 'Configure'],
+  },
+  'college-category': {
+    layout: 'grid',
+    gridItems: [
+      {
+        title: 'Arts & Science',
+        desc: 'Liberal arts and sciences colleges',
+        count: '35 Colleges',
+      },
+      {
+        title: 'Engineering & Technology',
+        desc: 'Engineering and technical institutions',
+        count: '22 Colleges',
+      },
+      {
+        title: 'Medical & Health Sciences',
+        desc: 'Medical, dental, nursing colleges',
+        count: '12 Colleges',
+      },
+      {
+        title: 'Management Studies',
+        desc: 'Business schools and management institutes',
+        count: '18 Colleges',
+      },
+      {
+        title: 'Law Colleges',
+        desc: 'Legal education institutions',
+        count: '8 Colleges',
+      },
+      {
+        title: 'Pharmacy Colleges',
+        desc: 'Pharmaceutical sciences institutions',
+        count: '10 Colleges',
+      },
+    ],
+    actions: ['Add Category', 'Set Criteria', 'Configure'],
+  },
+  'degree-level': {
+    layout: 'table',
+    columns: [
+      { field: 'level', header: 'Degree Level' },
+      { field: 'code', header: 'Code' },
+      { field: 'duration', header: 'Duration' },
+      { field: 'programmes', header: 'Programmes' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: [
+      {
+        level: 'Undergraduate (UG)',
+        code: 'UG',
+        duration: '3-4 Years',
+        programmes: '24',
+        status: 'Active',
+      },
+      {
+        level: 'Postgraduate (PG)',
+        code: 'PG',
+        duration: '2 Years',
+        programmes: '18',
+        status: 'Active',
+      },
+      {
+        level: 'Doctoral (PhD)',
+        code: 'PHD',
+        duration: '3-5 Years',
+        programmes: '12',
+        status: 'Active',
+      },
+      {
+        level: 'Diploma',
+        code: 'DIP',
+        duration: '1-3 Years',
+        programmes: '15',
+        status: 'Active',
+      },
+      {
+        level: 'Certificate',
+        code: 'CERT',
+        duration: '6-12 Months',
+        programmes: '20',
+        status: 'Active',
+      },
+      {
+        level: 'Integrated (UG+PG)',
+        code: 'INT',
+        duration: '5 Years',
+        programmes: '6',
+        status: 'Active',
+      },
+    ],
+    actions: ['Add Level', 'Assign Programmes', 'Set Duration'],
+  },
+  'academic-year': {
+    layout: 'table',
+    columns: [
+      { field: 'year', header: 'Academic Year' },
+      { field: 'start', header: 'Start Date' },
+      { field: 'end', header: 'End Date' },
+      { field: 'sessions', header: 'Sessions' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: [
+      {
+        year: '2026-27',
+        start: '01 Jun 2026',
+        end: '31 May 2027',
+        sessions: '2',
+        status: 'Active',
+      },
+      {
+        year: '2025-26',
+        start: '01 Jun 2025',
+        end: '31 May 2026',
+        sessions: '2',
+        status: 'Completed',
+      },
+      {
+        year: '2024-25',
+        start: '01 Jun 2024',
+        end: '31 May 2025',
+        sessions: '2',
+        status: 'Completed',
+      },
+      {
+        year: '2027-28',
+        start: '01 Jun 2027',
+        end: '31 May 2028',
+        sessions: '2',
+        status: 'Upcoming',
+      },
+    ],
+    actions: ['Create Academic Year', 'Configure Sessions', 'Holiday Calendar'],
+  },
+  programme: {
+    layout: 'table',
+    columns: [
+      { field: 'name', header: 'Programme Name' },
+      { field: 'code', header: 'Code' },
+      { field: 'level', header: 'Level', type: 'badge' },
+      { field: 'duration', header: 'Duration' },
+      { field: 'seats', header: 'Seats' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: programmes,
+    actions: ['Add Programme', 'Set Intake', 'Configure Fee'],
+  },
+  specialisation: {
+    layout: 'table',
+    columns: [
+      { field: 'name', header: 'Specialisation' },
+      { field: 'code', header: 'Code' },
+      { field: 'programme', header: 'Programme' },
+      { field: 'level', header: 'Level', type: 'badge' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: [
+      {
+        name: 'Data Science',
+        code: 'DS',
+        programme: 'B.Tech CSE',
+        level: 'UG',
+        status: 'Active',
+      },
+      {
+        name: 'Cybersecurity',
+        code: 'CSEC',
+        programme: 'B.Tech CSE',
+        level: 'UG',
+        status: 'Active',
+      },
+      {
+        name: 'Financial Management',
+        code: 'FM',
+        programme: 'MBA',
+        level: 'PG',
+        status: 'Active',
+      },
+      {
+        name: 'Human Resources',
+        code: 'HR',
+        programme: 'MBA',
+        level: 'PG',
+        status: 'Active',
+      },
+      {
+        name: 'Microbiology',
+        code: 'MB',
+        programme: 'B.Sc Bio',
+        level: 'UG',
+        status: 'Active',
+      },
+      {
+        name: 'Astrophysics',
+        code: 'AP',
+        programme: 'M.Sc Physics',
+        level: 'PG',
+        status: 'Active',
+      },
+    ],
+    actions: ['Add Specialisation', 'Assign Programme', 'Set Credits'],
+  },
+  nationality: {
+    layout: 'table',
+    columns: [
+      { field: 'country', header: 'Country' },
+      { field: 'code', header: 'Code' },
+      { field: 'nationality', header: 'Nationality' },
+      { field: 'students', header: 'Students' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: [
+      {
+        country: 'India',
+        code: 'IN',
+        nationality: 'Indian',
+        students: '12,500',
+        status: 'Active',
+      },
+      {
+        country: 'United States',
+        code: 'US',
+        nationality: 'American',
+        students: '45',
+        status: 'Active',
+      },
+      {
+        country: 'United Kingdom',
+        code: 'GB',
+        nationality: 'British',
+        students: '28',
+        status: 'Active',
+      },
+      {
+        country: 'Canada',
+        code: 'CA',
+        nationality: 'Canadian',
+        students: '32',
+        status: 'Active',
+      },
+      {
+        country: 'Australia',
+        code: 'AU',
+        nationality: 'Australian',
+        students: '18',
+        status: 'Active',
+      },
+      {
+        country: 'Nepal',
+        code: 'NP',
+        nationality: 'Nepalese',
+        students: '85',
+        status: 'Active',
+      },
+      {
+        country: 'Bangladesh',
+        code: 'BD',
+        nationality: 'Bangladeshi',
+        students: '62',
+        status: 'Active',
+      },
+      {
+        country: 'UAE',
+        code: 'AE',
+        nationality: 'Emirati',
+        students: '12',
+        status: 'Active',
+      },
+    ],
+    actions: ['Add Nationality', 'Set Fee Structure', 'Document Checklist'],
+  },
+  'grant-type': {
+    layout: 'grid',
+    gridItems: [
+      {
+        title: 'Research Grant',
+        desc: 'Funding for academic research projects',
+        count: '₹2.5 Cr Budget',
+      },
+      {
+        title: 'Travel Grant',
+        desc: 'Support for conference travel and fieldwork',
+        count: '₹15 L Budget',
+      },
+      {
+        title: 'Equipment Grant',
+        desc: 'Funding for laboratory/workshop equipment',
+        count: '₹1.8 Cr Budget',
+      },
+      {
+        title: 'Innovation Grant',
+        desc: 'Support for innovative and startup ideas',
+        count: '₹50 L Budget',
+      },
+      {
+        title: 'Publication Grant',
+        desc: 'Funding for research publication fees',
+        count: '₹10 L Budget',
+      },
+      {
+        title: 'Collaborative Grant',
+        desc: 'Joint research with other institutions',
+        count: '₹3 Cr Budget',
+      },
+    ],
+    actions: ['Add Grant Type', 'Allocate Budget', 'Set Criteria'],
+  },
+  'grant-category': {
+    layout: 'grid',
+    gridItems: [
+      {
+        title: 'Internal Grants',
+        desc: 'Funded by university internal resources',
+        count: '12 Active',
+      },
+      {
+        title: 'Government Grants',
+        desc: 'Funded by central/state government agencies',
+        count: '8 Active',
+      },
+      {
+        title: 'International Grants',
+        desc: 'Funding from global organizations',
+        count: '5 Active',
+      },
+      {
+        title: 'Corporate Grants',
+        desc: 'Industry-funded research projects',
+        count: '6 Active',
+      },
+      {
+        title: 'Private Endowments',
+        desc: 'Funding from trusts and foundations',
+        count: '4 Active',
+      },
+      {
+        title: 'Collaborative Grants',
+        desc: 'Joint funding with partner institutions',
+        count: '3 Active',
+      },
+    ],
+    actions: ['Add Category', 'Set Funding Limits', 'Configure Review'],
+  },
+  'eligibility-application-process': {
+    layout: 'workflow',
+    workflowStages: [
+      { stage: 'Application Submission', count: 156, status: 'Open' },
+      { stage: 'Document Verification', count: 98, status: 'In Progress' },
+      { stage: 'Department Review', count: 62, status: 'In Progress' },
+      { stage: 'Finance Clearance', count: 35, status: 'Pending' },
+      { stage: 'Committee Approval', count: 18, status: 'Pending' },
+      { stage: 'Final Disbursement', count: 12, status: 'Completed' },
+    ],
+    actions: ['New Application', 'Check Status', 'Download Forms'],
+  },
+  'scheme-type': {
+    layout: 'grid',
+    gridItems: [
+      {
+        title: 'Merit-Based Scholarship',
+        desc: 'Awarded for academic excellence',
+        count: '3 Active',
+      },
+      {
+        title: 'Need-Based Financial Aid',
+        desc: 'Support for economically weaker students',
+        count: '2 Active',
+      },
+      {
+        title: 'Sports Quota Scheme',
+        desc: 'For outstanding sports achievers',
+        count: '1 Active',
+      },
+      {
+        title: 'Research Fellowship',
+        desc: 'Support for PG/PhD research scholars',
+        count: '4 Active',
+      },
+      {
+        title: 'Cultural Excellence',
+        desc: 'For achievements in arts and culture',
+        count: '1 Active',
+      },
+      {
+        title: 'Special Category Scheme',
+        desc: 'For SC/ST/OBC/EWS categories',
+        count: '3 Active',
+      },
+    ],
+    actions: ['Add Scheme Type', 'Set Budget', 'Configure Eligibility'],
+  },
+  'scheme-category': {
+    layout: 'grid',
+    gridItems: [
+      {
+        title: 'UG Programmes',
+        desc: 'Schemes for undergraduate students',
+        count: '8 Schemes',
+      },
+      {
+        title: 'PG Programmes',
+        desc: 'Schemes for postgraduate students',
+        count: '6 Schemes',
+      },
+      {
+        title: 'Doctoral Programmes',
+        desc: 'Fellowships for PhD scholars',
+        count: '4 Schemes',
+      },
+      {
+        title: 'Skill Development',
+        desc: 'Vocational training schemes',
+        count: '3 Schemes',
+      },
+      {
+        title: 'International Exchange',
+        desc: 'Study abroad opportunities',
+        count: '2 Schemes',
+      },
+      {
+        title: 'Faculty Development',
+        desc: 'Schemes for teaching staff',
+        count: '5 Schemes',
+      },
+    ],
+    actions: ['Add Category', 'Assign Schemes', 'Configure'],
+  },
+  schemes: {
+    layout: 'table',
+    columns: [
+      { field: 'name', header: 'Scheme Name' },
+      { field: 'type', header: 'Type', type: 'badge' },
+      { field: 'category', header: 'Category', type: 'badge' },
+      { field: 'benefit', header: 'Benefit' },
+      { field: 'students', header: 'Beneficiaries' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: schemes,
+    actions: ['Add Scheme', 'Apply for Scheme', 'Generate Report'],
+  },
+  'nature-of-employment': {
+    layout: 'grid',
+    gridItems: [
+      {
+        title: 'Regular/Permanent',
+        desc: 'Full-time permanent employment with benefits',
+        count: '380 Employees',
+      },
+      {
+        title: 'Contractual',
+        desc: 'Fixed-term contract-based employment',
+        count: '85 Employees',
+      },
+      {
+        title: 'Temporary',
+        desc: 'Short-term temporary appointments',
+        count: '42 Employees',
+      },
+      {
+        title: 'Ad-hoc',
+        desc: 'Appointed on need-basis for specific duration',
+        count: '28 Employees',
+      },
+      {
+        title: 'Visiting/Foreign',
+        desc: 'Visiting faculty from other institutions',
+        count: '15 Employees',
+      },
+      {
+        title: 'Honorary',
+        desc: 'Honorary positions without regular remuneration',
+        count: '12 Employees',
+      },
+    ],
+    actions: ['Add Type', 'Set Benefits', 'Configure Policy'],
+  },
+  'user-managemnt': {
+    layout: 'dashboard',
+    kpis: [
+      { label: 'Total Users', value: '12,847', icon: 'users' },
+      { label: 'Active Today', value: '3,421', icon: 'activity' },
+      { label: 'New This Month', value: '245', icon: 'user-plus' },
+      { label: 'Pending Approval', value: '38', icon: 'clock' },
+    ],
+    actions: ['Add User', 'Bulk Import', 'Generate Report', 'Manage Roles'],
+    sections: [
+      {
+        title: 'Active Users',
+        items: users.map(u => ({
+          label: u.name,
+          desc: `${u.role} • ${u.department}`,
+          icon: 'pi-user',
+        })),
+      },
+    ],
+  },
+  'programme-management': {
+    layout: 'dashboard',
+    kpis: [
+      { label: 'Total Programmes', value: '86', icon: 'book' },
+      { label: 'Active Programmes', value: '72', icon: 'check-circle' },
+      { label: 'New Proposals', value: '8', icon: 'file-plus' },
+      { label: 'Awaiting Approval', value: '12', icon: 'clock' },
+    ],
+    actions: [
+      'Add Programme',
+      'Review Proposals',
+      'Generate Report',
+      'Configure',
+    ],
+    sections: [
+      {
+        title: 'Active Programmes',
+        items: programmes
+          .slice(0, 4)
+          .map(p => ({
+            label: p.name,
+            desc: `${p.code} • ${p.level} • ${p.duration}`,
+          })),
+      },
+    ],
+  },
+  'admission-admin-guide': {
+    layout: 'info',
+    infoSections: [
+      {
+        title: 'Admission Calendar',
+        content:
+          'The admission process begins on 1st February 2027 for the academic year 2027-28. Applications are accepted online through the university portal until 31st March 2027.',
+      },
+      {
+        title: 'Eligibility Criteria',
+        content:
+          'Candidates must have passed the qualifying examination with a minimum of 50% marks (45% for reserved categories). Entrance exam scores are considered for merit-based programmes.',
+      },
+      {
+        title: 'Required Documents',
+        content:
+          'Applicants must upload: 10th/12th mark sheets, graduation certificates (for PG), entrance exam score card, category certificate (if applicable), transfer certificate, and recent passport-size photographs.',
+      },
+      {
+        title: 'Fee Structure',
+        content:
+          'Application fee is ₹500 for General category and ₹250 for SC/ST/OBC categories. Tuition fees vary by programme and are detailed in the prospectus.',
+      },
+    ],
+    actions: ['Download Prospectus', 'View Calendar', 'Fee Structure'],
+  },
+  academics: {
+    layout: 'dashboard',
+    kpis: [
+      { label: 'Total Students', value: '18,450', icon: 'users' },
+      { label: 'Active Courses', value: '120', icon: 'book' },
+      { label: 'Faculty Members', value: '680', icon: 'briefcase' },
+      { label: 'Departments', value: '28', icon: 'building' },
+    ],
+    actions: ['Academic Calendar', 'Timetable', 'Curriculum', 'Reports'],
+    sections: [
+      {
+        title: 'Upcoming Events',
+        items: [
+          { label: 'Semester Registration', desc: '1 Jun - 15 Jun 2026' },
+          { label: 'Mid-term Exams', desc: '15 Sep - 25 Sep 2026' },
+          { label: 'Winter Break', desc: '25 Dec 2026 - 5 Jan 2027' },
+          { label: 'Final Exams', desc: '20 Apr - 10 May 2027' },
+        ].map(e => ({ label: e.label, desc: e.desc })),
+      },
+    ],
+  },
+  'evaluation-&-grading': {
+    layout: 'table',
+    columns: [
+      { field: 'student', header: 'Student Name' },
+      { field: 'course', header: 'Course' },
+      { field: 'internal', header: 'Internal (40)' },
+      { field: 'external', header: 'External (60)' },
+      { field: 'total', header: 'Total' },
+      { field: 'grade', header: 'Grade', type: 'badge' },
+    ],
+    rows: [
+      {
+        student: 'Rahul Sharma',
+        course: 'Data Structures',
+        internal: '34',
+        external: '52',
+        total: '86',
+        grade: 'A',
+      },
+      {
+        student: 'Priya Patel',
+        course: 'Linear Algebra',
+        internal: '30',
+        external: '48',
+        total: '78',
+        grade: 'B+',
+      },
+      {
+        student: 'Amit Singh',
+        course: 'Quantum Mechanics',
+        internal: '36',
+        external: '55',
+        total: '91',
+        grade: 'A+',
+      },
+      {
+        student: 'Neha Gupta',
+        course: 'English Literature',
+        internal: '28',
+        external: '42',
+        total: '70',
+        grade: 'B',
+      },
+      {
+        student: 'Rohan Verma',
+        course: 'Machine Learning',
+        internal: '38',
+        external: '56',
+        total: '94',
+        grade: 'A+',
+      },
+      {
+        student: 'Sneha Reddy',
+        course: 'Thermodynamics',
+        internal: '25',
+        external: '38',
+        total: '63',
+        grade: 'B-',
+      },
+    ],
+    actions: ['Upload Marks', 'Generate Grade Card', 'Publish Results'],
+  },
+  'examination-management': {
+    layout: 'table',
+    columns: [
+      { field: 'exam', header: 'Exam Name' },
+      { field: 'programme', header: 'Programme' },
+      { field: 'date', header: 'Date' },
+      { field: 'students', header: 'Students' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: examinations,
+    actions: ['Schedule Exam', 'Assign Seats', 'Publish Schedule'],
+  },
+  'certificate-management': {
+    layout: 'table',
+    columns: [
+      { field: 'id', header: 'Cert. ID' },
+      { field: 'student', header: 'Student' },
+      { field: 'course', header: 'Course' },
+      { field: 'issueDate', header: 'Issue Date' },
+      { field: 'type', header: 'Type', type: 'badge' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: certificates,
+    actions: ['Issue Certificate', 'Verify Certificate', 'Generate Bulk'],
+  },
+  'student-feedback-management': {
+    layout: 'table',
+    columns: [
+      { field: 'course', header: 'Course' },
+      { field: 'faculty', header: 'Faculty' },
+      { field: 'responses', header: 'Responses' },
+      { field: 'avgRating', header: 'Avg Rating', type: 'badge' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: feedbackResponses,
+    actions: ['Create Survey', 'View Analytics', 'Publish Results'],
+  },
+  'student-additional-information': {
+    layout: 'form',
+    formFields: [
+      { label: 'Student Name', type: 'text', required: true },
+      { label: 'Enrollment Number', type: 'text', required: true },
+      { label: 'Date of Birth', type: 'date', required: true },
+      { label: 'Gender', type: 'select', required: true },
+      { label: 'Blood Group', type: 'select', required: false },
+      { label: 'Nationality', type: 'select', required: true },
+      { label: 'Mother Tongue', type: 'text', required: false },
+      { label: 'Religion', type: 'select', required: false },
+      { label: 'Caste Category', type: 'select', required: true },
+      { label: 'Aadhaar Number', type: 'text', required: false },
+      { label: 'PAN Card', type: 'text', required: false },
+      { label: 'Emergency Contact', type: 'text', required: true },
+      { label: 'Medical Conditions', type: 'textarea', required: false },
+    ],
+    actions: ['Save Information', 'Verify Documents', 'Print Form'],
+  },
+  'student-application-form': {
+    layout: 'form',
+    formFields: [
+      { label: 'Programme Applied For', type: 'select', required: true },
+      { label: 'Applicant Full Name', type: 'text', required: true },
+      { label: "Father's Name", type: 'text', required: true },
+      { label: "Mother's Name", type: 'text', required: true },
+      { label: 'Date of Birth', type: 'date', required: true },
+      { label: 'Email Address', type: 'email', required: true },
+      { label: 'Mobile Number', type: 'tel', required: true },
+      { label: 'Address for Communication', type: 'textarea', required: true },
+      { label: 'Qualifying Exam Marks', type: 'text', required: true },
+      { label: 'Entrance Exam Score', type: 'text', required: true },
+      { label: 'Category', type: 'select', required: true },
+      { label: 'Upload Documents', type: 'file', required: true },
+    ],
+    actions: ['Submit Application', 'Save Draft', 'Print Preview'],
+  },
+  'student-fee-approval': {
+    layout: 'workflow',
+    workflowStages: [
+      { stage: 'Fee Submitted', count: 245, status: 'Completed' },
+      { stage: 'Payment Verification', count: 89, status: 'In Progress' },
+      { stage: 'Document Check', count: 156, status: 'Completed' },
+      { stage: 'Account Confirmation', count: 42, status: 'In Progress' },
+      { stage: 'Approval Pending', count: 28, status: 'Pending' },
+      { stage: 'Enrolment Confirmed', count: 198, status: 'Completed' },
+    ],
+    actions: [
+      'Verify Payment',
+      'Approve Enrolment',
+      'Generate Receipt',
+      'Flag Issue',
+    ],
+  },
+  'career-advancement-acheme': {
+    layout: 'workflow',
+    workflowStages: [
+      { stage: 'Application Submission', count: 42, status: 'Open' },
+      { stage: 'Department Review', count: 28, status: 'In Progress' },
+      { stage: 'HOD Recommendation', count: 18, status: 'In Progress' },
+      { stage: 'IQAC Verification', count: 12, status: 'Pending' },
+      { stage: 'Selection Committee', count: 6, status: 'Pending' },
+      { stage: 'Final Approval', count: 3, status: 'Completed' },
+    ],
+    actions: [
+      'New Application',
+      'Track Status',
+      'Download Guidelines',
+      'View History',
+    ],
+  },
+  'financial-supply-chain-management': {
+    layout: 'dashboard',
+    kpis: [
+      { label: 'Total Budget', value: '₹85 Cr', icon: 'wallet' },
+      { label: 'Allocated', value: '₹62 Cr', icon: 'check-circle' },
+      { label: 'Spent', value: '₹38 Cr', icon: 'trending-up' },
+      { label: 'Pending Requests', value: '18', icon: 'clock' },
+    ],
+    actions: [
+      'Create Budget',
+      'Process Payment',
+      'Generate Report',
+      'View Ledger',
+    ],
+    sections: [
+      {
+        title: 'Recent Financial Activity',
+        items: financeRecords
+          .slice(0, 4)
+          .map(f => ({
+            label: `FY ${f.fy}`,
+            desc: `${f.status} • Budget: ${f.budget} • Spent: ${f.spent}`,
+          })),
+      },
+    ],
+  },
+  'affiliation-Management': {
+    layout: 'table',
+    columns: [
+      { field: 'college', header: 'College Name' },
+      { field: 'type', header: 'Type', type: 'badge' },
+      { field: 'affiliationDate', header: 'Affiliation Date' },
+      { field: 'validity', header: 'Validity' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: affiliations,
+    actions: ['Grant Affiliation', 'Renew Affiliation', 'View Applications'],
+  },
+  'core-communication-system': {
+    layout: 'table',
+    columns: [
+      { field: 'subject', header: 'Subject' },
+      { field: 'sender', header: 'Sender' },
+      { field: 'date', header: 'Date' },
+      { field: 'type', header: 'Type', type: 'badge' },
+      { field: 'status', header: 'Status', type: 'tag' },
+    ],
+    rows: communications,
+    actions: ['Send Notice', 'Create Circular', 'Broadcast Message'],
+  },
+  'grievance-management': {
+    layout: 'table',
+    columns: [
+      { field: 'id', header: 'ID' },
+      { field: 'student', header: 'Student' },
+      { field: 'category', header: 'Category', type: 'badge' },
+      { field: 'description', header: 'Description' },
+      { field: 'status', header: 'Status', type: 'tag' },
+      { field: 'raised', header: 'Raised On' },
+    ],
+    rows: grievances,
+    actions: ['Raise Grievance', 'Assign to Dept', 'Resolve Issue'],
+  },
+  'residential-allocation-management': {
+    layout: 'table',
+    columns: [
+      { field: 'room', header: 'Room' },
+      { field: 'block', header: 'Block' },
+      { field: 'student', header: 'Allotted To' },
+      { field: 'occupancy', header: 'Type', type: 'badge' },
+      { field: 'status', header: 'Status', type: 'tag' },
+      { field: 'rent', header: 'Rent' },
+    ],
+    rows: hostelRooms,
+    actions: [
+      'Allot Room',
+      'Vacate Room',
+      'Maintenance Request',
+      'Generate Bill',
+    ],
+  },
+  'hostel-management': {
+    layout: 'dashboard',
+    kpis: [
+      { label: 'Total Capacity', value: '1,200', icon: 'building' },
+      { label: 'Occupied', value: '984', icon: 'users' },
+      { label: 'Vacant', value: '216', icon: 'home' },
+      { label: 'Pending Requests', value: '45', icon: 'clipboard' },
+    ],
+    actions: ['Allot Room', 'Maintenance', 'Generate Dues', 'Visitor Log'],
+    sections: [
+      {
+        title: 'Hostel Blocks',
+        items: [
+          {
+            label: 'A Wing (Boys)',
+            desc: '300 Capacity • 285 Occupied • 15 Vacant',
+          },
+          {
+            label: 'B Wing (Boys)',
+            desc: '250 Capacity • 210 Occupied • 40 Vacant',
+          },
+          {
+            label: 'C Wing (Girls)',
+            desc: '350 Capacity • 320 Occupied • 30 Vacant',
+          },
+          {
+            label: 'D Wing (Girls)',
+            desc: '300 Capacity • 169 Occupied • 131 Vacant',
+          },
+        ],
+      },
+    ],
+  },
+};

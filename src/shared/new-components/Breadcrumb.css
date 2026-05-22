@@ -1,0 +1,29 @@
+@reference "tailwindcss";
+
+.breadcrumb-nav {
+  @apply flex items-center gap-2 text-sm font-medium text-zinc-500 mb-4 max-sm:text-xs flex-wrap;
+}
+
+.dark .breadcrumb-nav {
+  @apply text-zinc-300;
+}
+
+.breadcrumb-separator {
+  @apply text-base text-zinc-400 select-none;
+}
+
+.dark .breadcrumb-separator {
+  @apply text-zinc-600;
+}
+
+.breadcrumb-item-active {
+  @apply text-slate-900 font-semibold;
+}
+
+.dark .breadcrumb-item-active {
+  @apply text-zinc-100;
+}
+
+.breadcrumb-item-link {
+  @apply cursor-pointer transition-colors duration-200 hover:text-blue-600;
+}

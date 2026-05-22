@@ -1,0 +1,195 @@
+.app-sidebar-container {
+  width: 264px;
+  flex-shrink: 0;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 16px;
+  padding: 1.25rem 0.75rem;
+  height: fit-content;
+  min-height: 480px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ── Header ── */
+.app-sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem 1rem;
+  border-bottom: 1px solid #f3f3f3;
+  margin-bottom: 0.25rem;
+}
+
+.app-sidebar-header-icon {
+  font-size: 1.15rem;
+  color: #111;
+  background: #f5f5f5;
+  padding: 0.5rem;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-sidebar-header-text h3 {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #111;
+  margin: 0;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.app-sidebar-header-text p {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: #9ca3af;
+  margin: 2px 0 0;
+  line-height: 1.2;
+}
+
+/* ── Menu ── */
+.app-sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ── Item ── */
+.app-sidebar-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #6b7280;
+  font-weight: 600;
+  font-size: 0.8rem;
+  position: relative;
+}
+
+.app-sidebar-item:hover {
+  background: #f5f5f5;
+  color: #111;
+}
+
+.app-sidebar-item.active {
+  background: #111 !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.app-sidebar-item.active .app-sidebar-icon {
+  color: #fff !important;
+}
+
+/* ── Icon ── */
+.app-sidebar-icon {
+  font-size: 0.95rem;
+  color: #9ca3af;
+  transition: color 0.2s;
+  width: 20px;
+  text-align: center;
+}
+
+.app-sidebar-item:hover .app-sidebar-icon {
+  color: #111;
+}
+
+/* ── Arrow ── */
+.app-sidebar-arrow {
+  margin-left: auto;
+  font-size: 0.6rem;
+  opacity: 0.5;
+}
+
+/* ── Item count badge ── */
+.app-sidebar-count {
+  margin-left: auto;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #9ca3af;
+  background: #f3f3f3;
+  padding: 1px 7px;
+  border-radius: 6px;
+}
+
+.app-sidebar-item.active .app-sidebar-count {
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Group label ── */
+.app-sidebar-group-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #d1d5db;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.75rem 0.85rem 0.25rem;
+}
+
+/* ==========================================
+   Dark Mode
+   ========================================== */
+.dark .app-sidebar-container {
+  background: #0d0d0f;
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.dark .app-sidebar-header {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+.dark .app-sidebar-header-icon {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.dark .app-sidebar-header-text h3 {
+  color: #fff;
+}
+
+.dark .app-sidebar-header-text p {
+  color: #6b7280;
+}
+
+.dark .app-sidebar-item {
+  color: #6b7280;
+}
+
+.dark .app-sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+}
+
+.dark .app-sidebar-item:hover .app-sidebar-icon {
+  color: #fff;
+}
+
+.dark .app-sidebar-item.active {
+  background: #fff !important;
+  color: #111 !important;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.08);
+}
+
+.dark .app-sidebar-item.active .app-sidebar-icon {
+  color: #111 !important;
+}
+
+.dark .app-sidebar-count {
+  color: #6b7280;
+  background: rgba(255, 255, 255, 0.06);
+}
